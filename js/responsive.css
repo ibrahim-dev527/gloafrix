@@ -1,0 +1,301 @@
+/* GloAfrix Marketplace - Responsive Styles */
+
+/* ============================================
+   Mobile First Approach
+   ============================================ */
+
+/* Tablet Styles - 768px and up */
+@media (min-width: 768px) {
+    /* Header */
+    nav {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .btn-secondary {
+        display: inline-block;
+    }
+
+    .btn-icon {
+        display: inline-flex;
+    }
+
+    /* Hero */
+    .hero-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    /* Contact */
+    .contact-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Profile */
+    .profile-header {
+        flex-direction: row;
+    }
+
+    /* Product Detail */
+    .product-detail-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Cart */
+    .cart-container {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    /* Form */
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Search Bar */
+    .search-filter-bar {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Desktop Styles - 1024px and up */
+@media (min-width: 1024px) {
+    /* Hero */
+    .hero-title {
+        font-size: 4rem;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Product Grid */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    /* Dashboard */
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Large Desktop - 1280px and up */
+@media (min-width: 1280px) {
+    .hero-title {
+        font-size: 4.5rem;
+    }
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 767px) {
+    /* Header */
+    .header-actions .btn-secondary {
+        display: none;
+    }
+
+    /* Hero */
+    .hero-container {
+        padding: 2rem 1rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .phone-mockup {
+        width: 200px;
+        height: 400px;
+    }
+
+    .phone-screen {
+        font-size: 3rem;
+    }
+
+    /* Section */
+    .section {
+        padding: 2rem 1rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    /* Product Grid */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .product-image {
+        font-size: 3rem;
+    }
+
+    .product-name {
+        font-size: 0.95rem;
+    }
+
+    .product-price {
+        font-size: 1.1rem;
+    }
+
+    /* Profile */
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+
+    .profile-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-stats {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    /* Product Detail */
+    .main-image {
+        font-size: 5rem;
+    }
+
+    .product-detail-title {
+        font-size: 1.5rem;
+    }
+
+    .product-detail-price {
+        font-size: 1.5rem;
+    }
+
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .btn-large {
+        width: 100%;
+    }
+
+    /* Auth */
+    .auth-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-card h1 {
+        font-size: 1.5rem;
+    }
+
+    .social-login {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dashboard */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .order-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Contact */
+    .contact-info,
+    .contact-form {
+        padding: 1.5rem;
+    }
+
+    /* Form */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Print Styles */
+@media print {
+    header,
+    footer,
+    .category-pills,
+    .btn,
+    .favorite-btn {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .section {
+        padding: 1rem 0;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Dark Mode Support (Future) */
+@media (prefers-color-scheme: dark) {
+    /* Can be implemented in Phase 2 */
+}
+
+/* Landscape Mobile */
+@media (max-width: 767px) and (orientation: landscape) {
+    .hero-container {
+        grid-template-columns: 1fr 1fr;
+        padding: 2rem 1rem;
+    }
+
+    .phone-mockup {
+        width: 150px;
+        height: 300px;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 1.2rem;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pills-container {
+        padding: 0.75rem;
+    }
+
+    .pill {
+        padding: 0.4rem 1rem;
+        font-size: 0.875rem;
+    }
+}
