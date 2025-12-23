@@ -1,7 +1,5 @@
 /**
- * GloAfrix Marketplace - Main Application
- * Phase 1: Frontend with mock data
- * Phase 2: Will integrate with WordPress/WooCommerce API
+ * GloAfrix Marketplace - Enhanced Application with Dark Mode & Image Upload
  */
 
 // Global State
@@ -9,11 +7,15 @@ let favorites = new Set();
 let cart = [];
 let currentCategory = 'Electronics';
 let currentProduct = null;
+let freelancerApplications = [];
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     init();
     setupEventListeners();
+    loadCartFromStorage();
+    loadFavoritesFromStorage();
+    initDarkMode();
 });
 
 /**
@@ -28,6 +30,8 @@ function init() {
     renderBlogPosts();
     renderVendorProducts();
     updateCartBadge();
+    initMobileMenu();
+    detectMobileAndApplyScroll();
 }
 
 /**
@@ -51,43 +55,368 @@ function setupEventListeners() {
     if (signupForm) {
         signupForm.addEventListener('submit', handleSignupSubmit);
     }
+
+    // Freelancer Form
+    const freelancerForm = document.getElementById('freelancerForm');
+    if (freelancerForm) {
+        freelancerForm.addEventListener('submit', handleFreelancerSubmit);
+    }
+
+    // Window resize for mobile detection
+    window.addEventListener('resize', detectMobileAndApplyScroll);
 }
 
 /**
- * Page Navigation
+ * Dark Mode Functions
  */
-function showPage(pageName) {
-    const pages = ['home', 'marketplace', 'services', 'blog', 'vendor', 'contact', 'cart', 'productDetail', 'login', 'signup', 'dashboard'];
+function initDarkMode() {
+    // Check for saved dark mode preference
+    const savedMode = localStorage.getItem('gloafrix_darkMode');
+    if (savedMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        updateDarkModeIcon(true);
+    }
+}
+
+function toggleDarkMode() {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
     
-    pages.forEach(page => {
-        const pageElement = document.getElementById(page + 'Page');
-        if (pageElement) {
-            pageElement.classList.add('hidden');
+    // Save preference
+    localStorage.setItem('gloafrix_darkMode', isDarkMode ? 'enabled' : 'disabled');
+    
+    // Update icon
+    updateDarkModeIcon(isDarkMode);
+    
+    // Show notification
+    showNotification(isDarkMode ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
+}
+
+function updateDarkModeIcon(isDarkMode) {
+    const darkModeButtons = document.querySelectorAll('.dark-mode-toggle, [onclick*="toggleDarkMode"]');
+    darkModeButtons.forEach(btn => {
+        if (isDarkMode) {
+            btn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                </svg>
+            `;
+        } else {
+            btn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            `;
+        }
+        btn.title = isDarkMode ? 'Switch to light mode' : 'Switch to dark mode';
+    });
+}
+
+/**
+ * Image Upload Functions
+ */
+function initImageUpload(containerId, inputId) {
+    const container = document.getElementById(containerId);
+    const input = document.getElementById(inputId);
+    
+    if (!container || !input) return;
+    
+    container.addEventListener('click', () => input.click());
+    
+    input.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                displayImagePreview(container, event.target.result);
+            };
+            reader.readAsDataURL(file);
         }
     });
+}
+
+function displayImagePreview(container, imageSrc) {
+    container.classList.add('has-image');
+    container.innerHTML = `
+        <img src="${imageSrc}" alt="Preview" class="image-preview">
+        <button type="button" class="remove-image-btn" onclick="removeImagePreview('${container.id}')">×</button>
+    `;
+}
+
+function removeImagePreview(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     
-    const targetPage = document.getElementById(pageName + 'Page');
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
+    container.classList.remove('has-image');
+    container.innerHTML = `
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Click to upload image</div>
+        <div class="upload-hint">Supports: JPG, PNG, GIF (Max 5MB)</div>
+    `;
+    
+    // Reset the file input
+    const input = container.nextElementSibling || document.querySelector(`input[type="file"]`);
+    if (input) input.value = '';
+}
+
+
+/**
+ * FIXED Mobile Menu Functions - Replace existing mobile menu code
+ */
+
+function initMobileMenu() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.mobile-menu-overlay');
+    const closeBtn = document.querySelector('.mobile-menu-close');
+
+    console.log('Initializing mobile menu...'); // Debug
+
+    if (menuToggle) {
+        // Remove any existing listeners
+        menuToggle.onclick = null;
+        
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Menu toggle clicked'); // Debug
+            toggleMobileMenu();
+        });
+    } else {
+        console.error('Menu toggle button not found!');
     }
 
-    // Close mobile menu
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu) {
-        mobileMenu.classList.remove('active');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeMobileMenu();
+        });
     }
     
-    // Scroll to top
-    window.scrollTo(0, 0);
+    // Close menu when clicking menu items
+    const menuItems = document.querySelectorAll('.mobile-menu-item, .mobile-menu-category');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            setTimeout(closeMobileMenu, 100);
+        });
+    });
+}
+
+function toggleMobileMenu() {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.mobile-menu-overlay');
+    
+    console.log('Toggle mobile menu called'); // Debug
+    
+    if (!mobileMenu || !overlay) {
+        console.error('Mobile menu elements not found');
+        return;
+    }
+    
+    const isActive = mobileMenu.classList.contains('active');
+    
+    if (isActive) {
+        closeMobileMenu();
+    } else {
+        openMobileMenu();
+    }
+}
+
+function openMobileMenu() {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.mobile-menu-overlay');
+    
+    console.log('Opening mobile menu'); // Debug
+    
+    if (!mobileMenu || !overlay) return;
+    
+    // Show elements
+    mobileMenu.style.display = 'block';
+    overlay.style.display = 'block';
+    
+    // Force browser reflow
+    void mobileMenu.offsetWidth;
+    
+    // Add active classes
+    requestAnimationFrame(() => {
+        mobileMenu.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+function closeMobileMenu() {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const overlay = document.querySelector('.mobile-menu-overlay');
+    
+    console.log('Closing mobile menu'); // Debug
+    
+    if (!mobileMenu || !overlay) return;
+    
+    // Remove active classes
+    mobileMenu.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Wait for transition to complete before hiding
+    setTimeout(() => {
+        if (!mobileMenu.classList.contains('active')) {
+            mobileMenu.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    }, 300);
+}
+
+// Make sure this is called when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing menu');
+    initMobileMenu();
+});
+
+// Also initialize immediately if DOM is already loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+    initMobileMenu();
+}
+
+
+/**
+ * Freelancer Registration Functions
+ */
+let skills = [];
+
+function addSkill() {
+    const input = document.getElementById('skillInput');
+    const skill = input.value.trim();
+    
+    if (skill && !skills.includes(skill)) {
+        skills.push(skill);
+        renderSkills();
+        input.value = '';
+    }
+}
+
+function removeSkill(skill) {
+    skills = skills.filter(s => s !== skill);
+    renderSkills();
+}
+
+function renderSkills() {
+    const container = document.getElementById('skillsList');
+    if (!container) return;
+    
+    container.innerHTML = skills.map(skill => `
+        <span class="skill-tag">
+            ${skill}
+            <button type="button" onclick="removeSkill('${skill}')">×</button>
+        </span>
+    `).join('');
+}
+
+function handleFreelancerSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        fullName: document.getElementById('fullName')?.value,
+        email: document.getElementById('email')?.value,
+        phone: document.getElementById('phone')?.value,
+        category: document.getElementById('category')?.value,
+        experience: document.getElementById('experience')?.value,
+        skills: skills,
+        hourlyRate: document.getElementById('hourlyRate')?.value,
+        portfolio: document.getElementById('portfolio')?.value,
+        bio: document.getElementById('bio')?.value,
+        status: 'pending',
+        submittedAt: new Date().toISOString()
+    };
+    
+    // Save to localStorage (in real app, this would be sent to backend)
+    const applications = JSON.parse(localStorage.getItem('gloafrix_freelancer_applications') || '[]');
+    applications.push(formData);
+    localStorage.setItem('gloafrix_freelancer_applications', JSON.stringify(applications));
+    
+    showNotification('✅ Application submitted successfully! We\'ll review it and get back to you soon.');
+    
+    // Redirect after short delay
+    setTimeout(() => {
+        window.location.href = 'services.html';
+    }, 2000);
 }
 
 /**
- * Mobile Menu Toggle
+ * Detect Mobile and Apply Horizontal Scroll to Product Grids
  */
-function toggleMobileMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu) {
-        mobileMenu.classList.toggle('active');
+function detectMobileAndApplyScroll() {
+    const isMobile = window.innerWidth < 768;
+    const productGrids = document.querySelectorAll('.product-grid');
+    
+    productGrids.forEach(grid => {
+        if (isMobile) {
+            grid.classList.add('mobile-scroll');
+        } else {
+            grid.classList.remove('mobile-scroll');
+        }
+    });
+}
+
+/**
+ * Local Storage for Cart Persistence
+ */
+function saveCartToStorage() {
+    try {
+        localStorage.setItem('gloafrix_cart', JSON.stringify(cart));
+    } catch (e) {
+        console.error('Failed to save cart:', e);
+    }
+}
+
+function loadCartFromStorage() {
+    try {
+        const savedCart = localStorage.getItem('gloafrix_cart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+            updateCartBadge();
+            updateCartDisplay();
+        }
+    } catch (e) {
+        console.error('Failed to load cart:', e);
+    }
+}
+
+/**
+ * Local Storage for Favorites Persistence
+ */
+function saveFavoritesToStorage() {
+    try {
+        localStorage.setItem('gloafrix_favorites', JSON.stringify([...favorites]));
+    } catch (e) {
+        console.error('Failed to save favorites:', e);
+    }
+}
+
+function loadFavoritesFromStorage() {
+    try {
+        const savedFavorites = localStorage.getItem('gloafrix_favorites');
+        if (savedFavorites) {
+            favorites = new Set(JSON.parse(savedFavorites));
+        }
+    } catch (e) {
+        console.error('Failed to load favorites:', e);
     }
 }
 
@@ -122,7 +451,7 @@ function filterCategory(category, element) {
 }
 
 /**
- * Product Card Generator
+ * Product Card Generator with GHS Currency
  */
 function createProductCard(product, showBadge = false) {
     const isFavorite = favorites.has(product.id);
@@ -137,7 +466,7 @@ function createProductCard(product, showBadge = false) {
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
-                <div class="product-price">${product.price}</div>
+                <div class="product-price">GHS ${product.ghsPrice.toFixed(2)}</div>
                 ${product.rating ? `
                     <div class="product-rating">
                         ${[...Array(5)].map((_, i) => `
@@ -154,7 +483,7 @@ function createProductCard(product, showBadge = false) {
 }
 
 /**
- * Service Card Generator
+ * Service Card Generator with GHS Currency
  */
 function createServiceCard(service) {
     return `
@@ -168,7 +497,7 @@ function createServiceCard(service) {
             </div>
             <div class="service-description">${service.description}</div>
             <div class="service-footer">
-                <div class="service-price">Starting at ${service.price}</div>
+                <div class="service-price">GHS ${service.ghsPrice.toFixed(2)}</div>
                 <button class="btn-hire" onclick="event.stopPropagation(); hireFreelancer(${service.id})">
                     Hire Now
                 </button>
@@ -205,7 +534,7 @@ function renderHomeProducts() {
     const container = document.getElementById('homeProductGrid');
     if (!container) return;
     
-    const filtered = mockProducts.filter(p => p.category === currentCategory).slice(0, 4);
+    const filtered = mockProducts.filter(p => p.category === currentCategory).slice(0, 6);
     container.innerHTML = filtered.map(p => createProductCard(p)).join('');
 }
 
@@ -245,7 +574,7 @@ function renderVendorProducts() {
 }
 
 /**
- * User Actions (UI Only - No backend logic per Phase 1 requirements)
+ * Enhanced Cart Functionality with Persistence
  */
 function toggleFavorite(id) {
     if (favorites.has(id)) {
@@ -253,6 +582,8 @@ function toggleFavorite(id) {
     } else {
         favorites.add(id);
     }
+    
+    saveFavoritesToStorage();
     
     // Re-render all grids
     renderHomeProducts();
@@ -279,11 +610,34 @@ function addToCart(id) {
         });
     }
     
+    saveCartToStorage();
     updateCartBadge();
     updateCartDisplay();
     
-    // Show success message
-    alert(`${product.name} added to cart!`);
+    // Show success notification
+    showNotification(`${product.name} added to cart!`);
+}
+
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    saveCartToStorage();
+    updateCartBadge();
+    updateCartDisplay();
+    showNotification('Item removed from cart');
+}
+
+function updateCartQuantity(id, change) {
+    const item = cart.find(item => item.id === id);
+    if (!item) return;
+    
+    item.quantity += change;
+    
+    if (item.quantity <= 0) {
+        removeFromCart(id);
+    } else {
+        saveCartToStorage();
+        updateCartDisplay();
+    }
 }
 
 function updateCartBadge() {
@@ -291,6 +645,7 @@ function updateCartBadge() {
     if (badge) {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'flex' : 'none';
     }
 }
 
@@ -304,18 +659,32 @@ function updateCartDisplay() {
                 <div class="empty-cart-icon">🛒</div>
                 <h3>Your cart is empty</h3>
                 <p>Start shopping to add items to your cart</p>
-                <button class="btn btn-primary" onclick="showPage('marketplace')">Browse Products</button>
+                <button class="btn btn-primary" onclick="window.location.href='marketplace.html'">Browse Products</button>
             </div>
         `;
     } else {
-        // Cart with items (Phase 2 will have full implementation)
-        cartItemsContainer.innerHTML = `
-            <div style="padding: 2rem;">
-                <h3>Cart functionality will be fully implemented in Phase 2</h3>
-                <p>Current items: ${cart.length}</p>
-                <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+        cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-image">${item.image}</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">GHS ${item.ghsPrice.toFixed(2)}</div>
+                </div>
+                <div class="cart-item-actions">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, -1)">−</button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, 1)">+</button>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-        `;
+        `).join('');
     }
     
     // Update summary
@@ -323,62 +692,124 @@ function updateCartDisplay() {
 }
 
 function updateCartSummary() {
-    // Placeholder for Phase 2
-    const subtotal = document.getElementById('cartSubtotal');
-    const shipping = document.getElementById('cartShipping');
-    const total = document.getElementById('cartTotal');
+    const subtotal = cart.reduce((sum, item) => sum + (item.ghsPrice * item.quantity), 0);
+    const shipping = subtotal > 0 ? 10.00 : 0; // GHS 10 flat shipping
+    const total = subtotal + shipping;
     
-    if (subtotal) subtotal.textContent = 'GHS 0.00';
-    if (shipping) shipping.textContent = 'GHS 0.00';
-    if (total) total.textContent = 'GHS 0.00';
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const shippingEl = document.getElementById('cartShipping');
+    const totalEl = document.getElementById('cartTotal');
+    
+    if (subtotalEl) subtotalEl.textContent = `GHS ${subtotal.toFixed(2)}`;
+    if (shippingEl) shippingEl.textContent = `GHS ${shipping.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `GHS ${total.toFixed(2)}`;
 }
 
 function clearCart() {
     cart = [];
+    saveCartToStorage();
     updateCartBadge();
     updateCartDisplay();
+    showNotification('Cart cleared');
 }
 
 function proceedToCheckout() {
-    alert('Checkout functionality will be implemented in Phase 2 with real payment integration.');
+    if (cart.length === 0) {
+        showNotification('Your cart is empty!');
+        return;
+    }
+    showNotification('Checkout functionality will be implemented in Phase 2');
 }
 
+/**
+ * Notification System
+ */
+function showNotification(message) {
+    // Remove existing notification
+    const existing = document.querySelector('.notification');
+    if (existing) {
+        existing.remove();
+    }
+    
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--gray-900);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        max-width: 90%;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Add notification animations
+if (!document.querySelector('#notification-styles')) {
+    const style = document.createElement('style');
+    style.id = 'notification-styles';
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(100px); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+/**
+ * Product Detail Functions
+ */
 function viewProduct(id) {
-    // Find product
     currentProduct = mockProducts.find(p => p.id === id) || mockRecommended.find(p => p.id === id);
     
     if (!currentProduct) return;
     
-    // Update product detail page
-    document.getElementById('productDetailTitle').textContent = currentProduct.name;
-    document.getElementById('productDetailPrice').textContent = currentProduct.price;
-    document.getElementById('productDetailDescription').textContent = currentProduct.description || 'Product description will be loaded from WordPress in Phase 2.';
-    document.getElementById('mainProductImage').textContent = currentProduct.image;
+    // Store in sessionStorage for product detail page
+    sessionStorage.setItem('currentProduct', JSON.stringify(currentProduct));
     
-    // Show product detail page
-    showPage('productDetail');
+    // Navigate to product detail page
+    window.location.href = `product-detail.html?id=${id}`;
 }
 
 function viewService(id) {
     const service = mockServices.find(s => s.id === id);
     if (!service) return;
     
-    alert(`Viewing service: ${service.title}. Full service detail page will be implemented in Phase 2.`);
+    showNotification(`Viewing service: ${service.title}. Full service detail page will be implemented in Phase 2.`);
 }
 
 function hireFreelancer(id) {
-    alert('Hiring functionality will be implemented in Phase 2 with real messaging and contract workflows.');
+    showNotification('Hiring functionality will be implemented in Phase 2 with real messaging and contract workflows.');
 }
 
 function readBlogPost(id) {
     const post = mockBlogPosts.find(p => p.id === id);
     if (!post) return;
     
-    alert(`Reading: ${post.title}. Full blog post content will be fetched from WordPress in Phase 2.`);
+    showNotification(`Reading: ${post.title}. Full blog post content will be fetched from WordPress in Phase 2.`);
 }
 
 /**
- * Product Detail Actions
+ * Product Detail Page Functions
  */
 function increaseQuantity() {
     const input = document.getElementById('productQuantity');
@@ -395,9 +826,17 @@ function decreaseQuantity() {
 }
 
 function addToCartFromDetail() {
-    if (!currentProduct) return;
+    if (!currentProduct) {
+        // Try to load from sessionStorage
+        const stored = sessionStorage.getItem('currentProduct');
+        if (stored) {
+            currentProduct = JSON.parse(stored);
+        } else {
+            return;
+        }
+    }
     
-    const quantity = parseInt(document.getElementById('productQuantity').value);
+    const quantity = parseInt(document.getElementById('productQuantity')?.value || 1);
     
     const existingItem = cart.find(item => item.id === currentProduct.id);
     
@@ -410,15 +849,16 @@ function addToCartFromDetail() {
         });
     }
     
+    saveCartToStorage();
     updateCartBadge();
-    alert(`${quantity} x ${currentProduct.name} added to cart!`);
+    showNotification(`${quantity} x ${currentProduct.name} added to cart!`);
 }
 
 function toggleFavoriteFromDetail() {
     if (!currentProduct) return;
     
     toggleFavorite(currentProduct.id);
-    alert(favorites.has(currentProduct.id) ? 'Added to favorites!' : 'Removed from favorites');
+    showNotification(favorites.has(currentProduct.id) ? 'Added to favorites!' : 'Removed from favorites');
 }
 
 /**
@@ -446,10 +886,10 @@ function sortProducts(sortBy) {
     
     switch(sortBy) {
         case 'price-low':
-            sorted.sort((a, b) => a.numericPrice - b.numericPrice);
+            sorted.sort((a, b) => a.ghsPrice - b.ghsPrice);
             break;
         case 'price-high':
-            sorted.sort((a, b) => b.numericPrice - a.numericPrice);
+            sorted.sort((a, b) => b.ghsPrice - a.ghsPrice);
             break;
         case 'rating':
             sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -466,70 +906,31 @@ function sortProducts(sortBy) {
  */
 function handleContactSubmit(e) {
     e.preventDefault();
-    
-    // In Phase 2, this will send to WordPress
-    // Example: fetch('/wp-json/contact/v1/submit', { method: 'POST', body: formData })
-    
-    alert('Message sent! We\'ll get back to you soon.\n\n(Phase 2 will implement real email functionality via WordPress)');
+    showNotification('Message sent! We\'ll get back to you soon.');
     e.target.reset();
 }
 
 function handleLoginSubmit(e) {
     e.preventDefault();
-    
-    // In Phase 2, integrate with WordPress authentication
-    // Example: fetch('/wp-json/jwt-auth/v1/token', { method: 'POST', body: credentials })
-    
-    alert('Login functionality will be implemented in Phase 2 with WordPress authentication.');
-    
-    // Simulate successful login
-    showPage('dashboard');
+    showNotification('Login functionality will be implemented in Phase 2 with WordPress authentication.');
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1500);
 }
 
 function handleSignupSubmit(e) {
     e.preventDefault();
     
-    // Check password match
-    const password = document.getElementById('signupPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const password = document.getElementById('signupPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
     
     if (password !== confirmPassword) {
-        alert('Passwords do not match!');
+        showNotification('Passwords do not match!');
         return;
     }
     
-    // In Phase 2, integrate with WordPress user registration
-    // Example: fetch('/wp-json/wp/v2/users', { method: 'POST', body: userData })
-    
-    alert('Account creation will be implemented in Phase 2 with WordPress user management.');
-    
-    // Simulate successful signup
-    showPage('dashboard');
+    showNotification('Account creation will be implemented in Phase 2.');
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1500);
 }
-
-/**
- * Phase 2 API Integration Examples
- * 
- * Fetch Products:
- * fetch('/wp-json/wc/v3/products')
- *   .then(res => res.json())
- *   .then(products => {
- *     mockProducts = products;
- *     renderMarketplaceProducts();
- *   });
- * 
- * Fetch Services:
- * fetch('/wp-json/wp/v2/services')
- *   .then(res => res.json())
- *   .then(services => {
- *     mockServices = services;
- *     renderServices();
- *   });
- * 
- * Add to Cart (WooCommerce):
- * fetch('/wp-json/wc/store/cart/add-item', {
- *   method: 'POST',
- *   headers: { 'Content-Type': 'application/json' },
- *   body: JSON.stringify({ id: productId, quantity: 1 })
- * });
- */

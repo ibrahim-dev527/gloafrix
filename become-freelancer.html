@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Freelancer - GloAfrix</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Beautiful Freelancer Page Styles */
+        .freelancer-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 0;
+        }
+        
+        .freelancer-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
+            opacity: 0.3;
+        }
+        
+        .freelancer-hero-content {
+            position: relative;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .freelancer-hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .freelancer-hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .freelancer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .freelancer-stat {
+            text-align: center;
+        }
+        
+        .freelancer-stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .freelancer-stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .freelancer-benefits {
+            max-width: 1280px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: #667eea;
+        }
+        
+        .benefit-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .benefit-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .freelancer-form-section {
+            background: var(--bg-secondary);
+            padding: 4rem 0;
+        }
+        
+        .form-container-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .form-step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .form-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--gray-400);
+            transition: all 0.3s;
+        }
+        
+        .form-step.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        .form-step.completed {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .freelancer-form-card {
+            background: var(--bg-primary);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .form-section-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .form-section-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.25rem;
+            transition: all 0.3s;
+        }
+        
+        .skill-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .skill-tag button {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .skill-tag button:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .image-upload-container {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 2px dashed #667eea;
+            transition: all 0.3s;
+        }
+        
+        .image-upload-container:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+        
+        .submit-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            margin-top: 2rem;
+        }
+        
+        .btn-submit-freelancer {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-submit-freelancer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .testimonials-section {
+            max-width: 1280px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        .testimonial-quote {
+            font-size: 3rem;
+            color: #667eea;
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .testimonial-info strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .testimonial-role {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .freelancer-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .freelancer-hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .freelancer-stats {
+                gap: 1.5rem;
+            }
+            
+            .freelancer-stat-number {
+                font-size: 2rem;
+            }
+            
+            .freelancer-form-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Same as home.html) -->
+    <header id="mainHeader">
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">🌍</div>
+                <span class="logo-text">GloAfrix</span>
+            </a>
+            
+            <nav id="mainNav">
+                <a href="home.html">Home</a>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="services.html">Services</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                    </svg>
+                </button>
+                <button class="btn btn-icon" onclick="window.location.href='cart.html'">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign up</a>
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="freelancer-hero">
+        <div class="freelancer-hero-content">
+            <h1>🎯 Become a GloAfrix Freelancer</h1>
+            <p class="freelancer-hero-subtitle">Join Africa's fastest-growing freelance community and turn your skills into income</p>
+            
+            <div class="freelancer-stats">
+                <div class="freelancer-stat">
+                    <span class="freelancer-stat-number">10K+</span>
+                    <span class="freelancer-stat-label">Active Freelancers</span>
+                </div>
+                <div class="freelancer-stat">
+                    <span class="freelancer-stat-number">50K+</span>
+                    <span class="freelancer-stat-label">Projects Completed</span>
+                </div>
+                <div class="freelancer-stat">
+                    <span class="freelancer-stat-number">GHS 2M+</span>
+                    <span class="freelancer-stat-label">Paid to Freelancers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="freelancer-benefits">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Why Freelance with GloAfrix?</h2>
+        <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Join thousands of African professionals building successful careers on our platform</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <span class="benefit-icon">💰</span>
+                <h3 class="benefit-title">Competitive Earnings</h3>
+                <p class="benefit-desc">Set your own rates and earn what you deserve. Our freelancers earn 40% more on average than traditional employment.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <span class="benefit-icon">🌍</span>
+                <h3 class="benefit-title">Pan-African Reach</h3>
+                <p class="benefit-desc">Access clients from across Africa. Work with businesses from Ghana, Nigeria, Kenya, South Africa and beyond.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <span class="benefit-icon">⏰</span>
+                <h3 class="benefit-title">Flexible Schedule</h3>
+                <p class="benefit-desc">Work when you want, where you want. Choose projects that fit your lifestyle and schedule.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <span class="benefit-icon">🔒</span>
+                <h3 class="benefit-title">Secure Payments</h3>
+                <p class="benefit-desc">Get paid on time, every time. Our escrow system ensures your earnings are protected.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <span class="benefit-icon">📈</span>
+                <h3 class="benefit-title">Career Growth</h3>
+                <p class="benefit-desc">Build your portfolio, gain experience, and grow your professional network across Africa.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <span class="benefit-icon">🎓</span>
+                <h3 class="benefit-title">Free Training</h3>
+                <p class="benefit-desc">Access our library of courses and resources to upgrade your skills and stay competitive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="freelancer-form-section">
+        <div class="form-container-wrapper">
+            <div class="form-step-indicator">
+                <div class="form-step active">1</div>
+                <div class="form-step">2</div>
+                <div class="form-step">3</div>
+            </div>
+            
+            <div class="freelancer-form-card">
+                <form id="freelancerForm">
+                    <!-- Personal Information -->
+                    <div class="form-section-title">
+                        <span>👤</span>
+                        Personal Information
+                    </div>
+                    <p class="form-section-subtitle">Let's start with the basics</p>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" required placeholder="+233 XX XXX XXXX">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <select id="country" required>
+                                <option value="">Select country</option>
+                                <option value="ghana">Ghana</option>
+                                <option value="nigeria">Nigeria</option>
+                                <option value="kenya">Kenya</option>
+                                <option value="south-africa">South Africa</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City *</label>
+                            <input type="text" id="city" required placeholder="Accra">
+                        </div>
+                    </div>
+
+                    <!-- Professional Information -->
+                    <div class="form-section-title" style="margin-top: 3rem;">
+                        <span>💼</span>
+                        Professional Details
+                    </div>
+                    <p class="form-section-subtitle">Tell us about your expertise</p>
+
+                    <div class="form-group">
+                        <label for="category">Primary Service Category *</label>
+                        <select id="category" required>
+                            <option value="">Select a category</option>
+                            <option value="design">Design & Creative</option>
+                            <option value="development">Web Development</option>
+                            <option value="mobile">Mobile App Development</option>
+                            <option value="marketing">Digital Marketing</option>
+                            <option value="writing">Writing & Content Creation</option>
+                            <option value="video">Video & Animation</option>
+                            <option value="music">Music & Audio</option>
+                            <option value="business">Business Consulting</option>
+                            <option value="data">Data Analysis</option>
+                            <option value="translation">Translation</option>
+                            <option value="legal">Legal Services</option>
+                            <option value="accounting">Accounting & Finance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="experience">Years of Experience *</label>
+                            <select id="experience" required>
+                                <option value="">Select experience level</option>
+                                <option value="0-1">Less than 1 year (Beginner)</option>
+                                <option value="1-3">1-3 years (Intermediate)</option>
+                                <option value="3-5">3-5 years (Experienced)</option>
+                                <option value="5-10">5-10 years (Expert)</option>
+                                <option value="10+">10+ years (Master)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hourlyRate">Hourly Rate (GHS) *</label>
+                            <input type="number" id="hourlyRate" min="0" step="1" required placeholder="50">
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="form-group">
+                        <label for="skillInput">Skills (Add at least 3 skills) *</label>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">Add skills that best describe your expertise</p>
+                        <div class="skills-input-container">
+                            <input type="text" id="skillInput" placeholder="e.g., Logo Design, Photoshop, Branding">
+                            <button type="button" class="btn btn-primary" onclick="addSkill()">+ Add</button>
+                        </div>
+                        <div id="skillsList" class="skills-list" style="margin-top: 1rem;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="languages">Languages You Speak</label>
+                        <input type="text" id="languages" placeholder="e.g., English, French, Swahili">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="portfolio">Portfolio/Website URL (Optional)</label>
+                        <input type="url" id="portfolio" placeholder="https://yourportfolio.com">
+                    </div>
+
+                    <!-- Profile Image Upload -->
+                    <div class="form-section-title" style="margin-top: 3rem;">
+                        <span>📸</span>
+                        Profile Setup
+                    </div>
+                    <p class="form-section-subtitle">Upload a professional photo and write your bio</p>
+
+                    <div class="form-group">
+                        <label>Profile Photo *</label>
+                        <div class="image-upload-container" id="profileImageUpload" onclick="document.getElementById('profileImage').click()">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">Click to upload your profile photo</div>
+                            <div class="upload-hint">Use a clear, professional headshot (JPG, PNG - Max 5MB)</div>
+                        </div>
+                        <input type="file" id="profileImage" accept="image/*" style="display: none;">
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="form-group">
+                        <label for="bio">Professional Bio *</label>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">Write a compelling bio that showcases your experience and what makes you unique (minimum 100 characters)</p>
+                        <textarea id="bio" rows="6" required placeholder="Example: I'm a passionate graphic designer with 5 years of experience creating memorable brand identities for African businesses. I specialize in logo design, brand strategy, and visual storytelling..."></textarea>
+                        <span id="bioCount" style="color: var(--text-secondary); font-size: 0.875rem;">0 / 100 characters</span>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="submit-section">
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" required>
+                                <span>I agree to the <a href="terms.html" target="_blank" style="color: #667eea; font-weight: 600;">Terms & Conditions</a> and <a href="privacy.html" target="_blank" style="color: #667eea; font-weight: 600;">Privacy Policy</a></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                                <input type="checkbox" required>
+                                <span>I confirm that all information provided is accurate and I have the legal right to work as a freelancer</span>
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit-freelancer">🚀 Submit Application</button>
+                        
+                        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                            Your application will be reviewed within 24-48 hours. We'll notify you via email once approved.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Success Stories</h2>
+        <p style="text-align: center; color: var(--text-secondary);">Hear from freelancers who are thriving on GloAfrix</p>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">GloAfrix changed my life! I went from struggling to find clients to having a steady stream of projects. In just 6 months, I've tripled my income and built an amazing portfolio.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">KA</div>
+                    <div class="testimonial-info">
+                        <strong>Kwame Agyemang</strong>
+                        <span class="testimonial-role">Graphic Designer, Ghana</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">The platform is incredibly easy to use, and the clients are professional. I love the flexibility of choosing my own projects and setting my own schedule. Best decision I ever made!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AA</div>
+                    <div class="testimonial-info">
+                        <strong>Amina Adebayo</strong>
+                        <span class="testimonial-role">Content Writer, Nigeria</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">As a developer, I was worried about payment security. GloAfrix's escrow system gave me peace of mind. I've completed 50+ projects without a single payment issue!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">JM</div>
+                    <div class="testimonial-info">
+                        <strong>Joseph Mwangi</strong>
+                        <span class="testimonial-role">Web Developer, Kenya</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="logo footer-logo">
+                        <div class="logo-icon">🌍</div>
+                        <span class="logo-text">GloAfrix</span>
+                    </div>
+                    <p class="footer-description">Africa's trusted marketplace for goods and services.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="help-center.html">Help Center</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li>support@gloafrix.com</li>
+                        <li>+233 XX XXX XXXX</li>
+                        <li>Accra, Ghana</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 GloAfrix. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initImageUpload('profileImageUpload', 'profileImage');
+            updateCartBadge();
+            
+            // Bio character counter
+            const bioTextarea = document.getElementById('bio');
+            const bioCount = document.getElementById('bioCount');
+            
+            if (bioTextarea && bioCount) {
+                bioTextarea.addEventListener('input', function() {
+                    const count = this.value.length;
+                    bioCount.textContent = `${count} / 100 characters`;
+                    bioCount.style.color = count >= 100 ? 'var(--primary-green)' : 'var(--text-secondary)';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

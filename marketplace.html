@@ -10,23 +10,79 @@
 <body>
     <!-- Header -->
     <header id="mainHeader">
-        <div class="header-container">
+        <div class="header-top-row">
             <a href="home.html" class="logo">
-                <img src="ibratech.jpeg" alt="ibratech" class="logo-icon">
-                
+                <div class="logo-icon">🌍</div>
                 <span class="logo-text">GloAfrix</span>
             </a>
             
+            <div class="header-animation-container">
+                <div class="header-animation">
+                    <span class="delivery-icon" style="font-size: 2rem;">🚚</span>
+                    <span class="package-icon" style="font-size: 1.5rem;">📦</span>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <span style="font-size: 2rem;">🏠</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                    </svg>
+                </button>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+        
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">🌍</div>
+                <span class="logo-text">GloAfrix</span>
+            </a>
             
             <nav id="mainNav">
-                <a href="home.html">Home</a>
-                <a href="marketplace.html" class="active">Marketplace</a>
-                <a href="services.html">Services</a>
-                <a href="blog.html">Blog</a>
-                <a href="contact.html">Contact</a>
+                <a href="home.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Home
+                </a>
+                <a href="marketplace.html" class="active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"></path>
+                    </svg>
+                    Marketplace
+                </a>
+                <a href="services.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    Services
+                </a>
+                <a href="blog.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                    </svg>
+                    Blog
+                </a>
+                <a href="contact.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+                    </svg>
+                    Contact
+                </a>
             </nav>
             
             <div class="header-actions">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                    </svg>
+                </button>
                 <button class="btn btn-icon" onclick="window.location.href='cart.html'" title="Cart">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
@@ -35,8 +91,6 @@
                     </svg>
                     <span class="cart-badge" id="cartCount">0</span>
                 </button>
-                <a href="login.html" class="btn btn-secondary">Login</a>
-                <a href="signup.html" class="btn btn-primary">Sign up</a>
                 <button class="menu-toggle" onclick="toggleMobileMenu()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -46,40 +100,117 @@
                 </button>
             </div>
         </div>
-        
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="home.html">Home</a>
-            <a href="marketplace.html">Marketplace</a>
-            <a href="services.html">Services</a>
-            <a href="blog.html">Blog</a>
-            <a href="cart.html">Cart</a>
-            <a href="contact.html">Contact</a>
-        </div>
     </header>
 
-    <!-- Main Content -->
-    <section class="section">
-        <h1 class="section-title">Marketplace - Goods</h1>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <span style="font-weight: 600; font-size: 1.125rem;">Menu</span>
+            <button class="mobile-menu-close">×</button>
+        </div>
         
-        <div class="page-nav">
-            <div class="page-nav-links">
-                <a href="marketplace.html" class="active">All Products</a>
-                <a href="vendor.html">Vendors</a>
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-section">
+                <h3>Navigation</h3>
+                <a href="home.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="marketplace.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"></path>
+                    </svg>
+                    <span>Marketplace</span>
+                </a>
+                <a href="cart.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
+                    </svg>
+                    <span>Cart</span>
+                </a>
+                <a href="services.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    <span>Services</span>
+                </a>
+            </div>
+            
+            <div class="mobile-menu-divider"></div>
+            
+            <div class="mobile-menu-categories">
+                <h3>Categories</h3>
+                <a href="#" class="mobile-menu-category" onclick="filterMarketplaceCategory('Electronics')">Electronics</a>
+                <a href="#" class="mobile-menu-category" onclick="filterMarketplaceCategory('Fashion')">Fashion</a>
+                <a href="#" class="mobile-menu-category" onclick="filterMarketplaceCategory('Beauty')">Beauty</a>
+                <a href="#" class="mobile-menu-category" onclick="filterMarketplaceCategory('Home')">Home & Living</a>
+                <a href="#" class="mobile-menu-category" onclick="filterMarketplaceCategory('Business')">Business Supplies</a>
             </div>
         </div>
+    </div>
 
-        <div class="search-filter-bar">
-            <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts(this.value)">
-            <select id="sortProducts" onchange="sortProducts(this.value)">
-                <option value="default">Sort by</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-            </select>
+    <!-- Main Content with Sidebar -->
+    <div class="marketplace-container">
+        <!-- Desktop Category Sidebar -->
+        <aside class="category-sidebar">
+            <h3>Categories</h3>
+            <div class="sidebar-category-list">
+                <a href="#" class="sidebar-category-item active" onclick="filterMarketplaceCategory('All'); return false;">
+                    All Products
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Electronics'); return false;">
+                    📱 Electronics
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Fashion'); return false;">
+                    👔 Fashion
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Beauty'); return false;">
+                    💄 Beauty & Personal Care
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Home'); return false;">
+                    🏠 Home & Living
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Business'); return false;">
+                    💼 Business Supplies
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Agriculture'); return false;">
+                    🌾 Agriculture
+                </a>
+                <a href="#" class="sidebar-category-item" onclick="filterMarketplaceCategory('Industrial'); return false;">
+                    🏭 Industrial Machinery
+                </a>
+            </div>
+        </aside>
+
+        <!-- Products Content -->
+        <div class="marketplace-content">
+            <h1 class="section-title">Marketplace - All Products</h1>
+            
+            <div class="page-nav">
+                <div class="page-nav-links">
+                    <a href="marketplace.html" class="active">All Products</a>
+                    <a href="vendor.html">Vendors</a>
+                </div>
+            </div>
+
+            <div class="search-filter-bar">
+                <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts(this.value)">
+                <select id="sortProducts" onchange="sortProducts(this.value)">
+                    <option value="default">Sort by</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+
+            <div class="product-grid" id="marketplaceGrid"></div>
         </div>
-
-        <div class="product-grid" id="marketplaceGrid"></div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -96,9 +227,9 @@
                 <div class="footer-column">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Vendor Portal</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="services.html">Services</a></li>
                         <li><a href="blog.html">Blog</a></li>
                     </ul>
                 </div>
@@ -106,10 +237,10 @@
                 <div class="footer-column">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#">Help Center</a></li>
+                        <li><a href="help-center.html">Help Center</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
                 
@@ -124,7 +255,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 GloAfrix. All rights reserved. Phase 1 - Frontend Demo</p>
+                <p>&copy; 2025 GloAfrix. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -132,6 +263,28 @@
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script>
+        // Filter marketplace by category
+        function filterMarketplaceCategory(category) {
+            const container = document.getElementById('marketplaceGrid');
+            if (!container) return;
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter products
+            let filtered = category === 'All' ? mockProducts : mockProducts.filter(p => p.category === category);
+            
+            container.innerHTML = filtered.length > 0 
+                ? filtered.map(p => createProductCard(p)).join('')
+                : '<div style="grid-column: 1/-1; text-align: center; padding: 3rem;">No products found in this category</div>';
+            
+            // Close mobile menu if open
+            closeMobileMenu();
+        }
+        
         // Initialize marketplace page
         document.addEventListener('DOMContentLoaded', function() {
             renderMarketplaceProducts();

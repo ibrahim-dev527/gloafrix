@@ -1,14 +1,10 @@
 /**
- * GloAfrix Marketplace - Mock Data
+ * GloAfrix Marketplace - Mock Data (All prices in GHS)
  * 
  * Phase 1: This file contains mock data for development
  * Phase 2: Replace with actual API calls to WordPress/WooCommerce
  * 
- * API Endpoints for Phase 2:
- * - Products: /wp-json/wc/v3/products
- * - Services: /wp-json/wp/v2/services (custom post type)
- * - Blog: /wp-json/wp/v2/posts
- * - Vendors: /wp-json/wp/v2/vendors (custom post type)
+ * All prices standardized to Ghanaian Cedis (GHS / ₵)
  */
 
 // Categories
@@ -22,14 +18,12 @@ const categories = [
     'Industrial Machinery'
 ];
 
-// Mock Products Data
-// In Phase 2: fetch('/wp-json/wc/v3/products')
+// Mock Products Data (All prices in GHS)
 const mockProducts = [
     {
         id: 1,
         name: 'Smartphone X12',
-        price: 'KOF 173,000',
-        numericPrice: 173000,
+        ghsPrice: 2850.00,
         image: '📱',
         rating: 5,
         category: 'Electronics',
@@ -44,8 +38,7 @@ const mockProducts = [
     {
         id: 2,
         name: 'African Print Dress',
-        price: 'NGH 53,000',
-        numericPrice: 53000,
+        ghsPrice: 450.00,
         image: '👗',
         rating: 4,
         category: 'Fashion',
@@ -60,8 +53,7 @@ const mockProducts = [
     {
         id: 3,
         name: 'Organic Shea Butter',
-        price: 'GHS 45.00',
-        numericPrice: 45,
+        ghsPrice: 45.00,
         image: '🥜',
         rating: 5,
         category: 'Beauty',
@@ -76,8 +68,7 @@ const mockProducts = [
     {
         id: 4,
         name: 'Wooden Armchair',
-        price: 'ZAR 1,500',
-        numericPrice: 1500,
+        ghsPrice: 980.00,
         image: '🪑',
         rating: 4,
         category: 'Home & Living',
@@ -92,8 +83,7 @@ const mockProducts = [
     {
         id: 5,
         name: 'Laptop Pro 15"',
-        price: 'NGF 250,000',
-        numericPrice: 250000,
+        ghsPrice: 4200.00,
         image: '💻',
         rating: 5,
         category: 'Electronics',
@@ -108,8 +98,7 @@ const mockProducts = [
     {
         id: 6,
         name: 'Designer Handbag',
-        price: 'GHS 120.00',
-        numericPrice: 120,
+        ghsPrice: 320.00,
         image: '👜',
         rating: 4,
         category: 'Fashion',
@@ -124,8 +113,7 @@ const mockProducts = [
     {
         id: 7,
         name: 'Face Cream Set',
-        price: 'KOF 28,000',
-        numericPrice: 28000,
+        ghsPrice: 180.00,
         image: '🧴',
         rating: 5,
         category: 'Beauty',
@@ -140,8 +128,7 @@ const mockProducts = [
     {
         id: 8,
         name: 'Coffee Table',
-        price: 'ZAR 890',
-        numericPrice: 890,
+        ghsPrice: 650.00,
         image: '🪵',
         rating: 4,
         category: 'Home & Living',
@@ -156,8 +143,7 @@ const mockProducts = [
     {
         id: 9,
         name: 'Wireless Earbuds',
-        price: 'NGN 35,000',
-        numericPrice: 35000,
+        ghsPrice: 290.00,
         image: '🎧',
         rating: 5,
         category: 'Electronics',
@@ -172,8 +158,7 @@ const mockProducts = [
     {
         id: 10,
         name: 'Ankara Fabric (6 yards)',
-        price: 'NGN 18,000',
-        numericPrice: 18000,
+        ghsPrice: 150.00,
         image: '🧵',
         rating: 5,
         category: 'Fashion',
@@ -184,58 +169,104 @@ const mockProducts = [
             avatar: 'AK',
             rating: 4.8
         }
-    }
-];
-
-// Mock Recommended Products
-const mockRecommended = [
+    },
     {
         id: 11,
-        name: 'Smart Watch Pro',
-        price: 'NOF 170,000',
-        numericPrice: 170000,
+        name: 'Smart Watch',
+        ghsPrice: 850.00,
         image: '⌚',
-        badge: 'New',
-        category: 'Electronics'
+        rating: 5,
+        category: 'Electronics',
+        description: 'Feature-rich smartwatch with fitness tracking, heart rate monitor, and 7-day battery life.',
+        vendor: {
+            id: 2,
+            name: 'TechAfrica Store',
+            avatar: 'TA',
+            rating: 4.9
+        }
     },
     {
         id: 12,
-        name: 'African Ghana Nuts',
-        price: 'NGH 12,000',
-        numericPrice: 12000,
-        image: '🥜',
-        badge: 'Trending',
-        category: 'Agriculture'
-    },
-    {
-        id: 13,
-        name: 'Luxury Armchair',
-        price: 'ZAR 1,500',
-        numericPrice: 1500,
-        image: '🛋️',
-        badge: 'Hot',
-        category: 'Home & Living'
-    },
-    {
-        id: 14,
-        name: 'Fresh Oranges (5kg)',
-        price: 'ZAR 1,000',
-        numericPrice: 1000,
-        image: '🍊',
-        badge: 'Sale',
-        category: 'Agriculture'
+        name: 'Kente Cloth',
+        ghsPrice: 580.00,
+        image: '🎨',
+        rating: 5,
+        category: 'Fashion',
+        description: 'Authentic Ghanaian Kente cloth. Handwoven with traditional patterns and vibrant colors.',
+        vendor: {
+            id: 1,
+            name: 'Akosua Mensah',
+            avatar: 'AK',
+            rating: 4.8
+        }
     }
 ];
 
-// Mock Services Data
-// In Phase 2: fetch('/wp-json/wp/v2/services')
+// Mock Recommended Products (All prices in GHS)
+const mockRecommended = [
+    {
+        id: 13,
+        name: 'Smart Watch Pro',
+        ghsPrice: 1200.00,
+        image: '⌚',
+        badge: 'New',
+        category: 'Electronics',
+        rating: 5
+    },
+    {
+        id: 14,
+        name: 'African Ghana Nuts',
+        ghsPrice: 85.00,
+        image: '🥜',
+        badge: 'Trending',
+        category: 'Agriculture',
+        rating: 5
+    },
+    {
+        id: 15,
+        name: 'Luxury Armchair',
+        ghsPrice: 1450.00,
+        image: '🛋️',
+        badge: 'Hot',
+        category: 'Home & Living',
+        rating: 4
+    },
+    {
+        id: 16,
+        name: 'Fresh Oranges (5kg)',
+        ghsPrice: 60.00,
+        image: '🍊',
+        badge: 'Sale',
+        category: 'Agriculture',
+        rating: 5
+    },
+    {
+        id: 17,
+        name: 'Bluetooth Speaker',
+        ghsPrice: 380.00,
+        image: '🔊',
+        badge: 'New',
+        category: 'Electronics',
+        rating: 5
+    },
+    {
+        id: 18,
+        name: 'Batik Dress',
+        ghsPrice: 420.00,
+        image: '👗',
+        badge: 'Trending',
+        category: 'Fashion',
+        rating: 5
+    }
+];
+
+// Mock Services Data (All prices in GHS)
 const mockServices = [
     {
         id: 1,
         title: 'Professional Logo Design',
         provider: 'Kwame Designs',
-        price: 'GHS 150',
-        numericPrice: 150,
+        ghsPrice: 250.00,
         avatar: 'KD',
         description: 'I will create a unique and professional logo for your brand with unlimited revisions. 7+ years experience in graphic design.',
         category: 'Design',
@@ -245,10 +276,22 @@ const mockServices = [
     {
         id: 2,
         title: 'WordPress Website Development',
-        provider: 'TechAfrica Solutions',
-        price: 'NGN 85,000',
-        numericPrice: 85000,
-        avatar: 'TS',
+        ghsPrice: 1500.00,
+        provider: 'Ibratech and Graphix',
+        avatar: 'IG',
+        description: 'Full-stack WordPress development with custom themes and WooCommerce integration. Responsive design guaranteed.',
+        category: 'Development',
+        rating: 5,
+        reviews: 156
+    },
+
+
+    {
+        id: 2,
+        title: 'WordPress Website Development',
+        ghsPrice: 1500.00,
+        provider: 'Ibratech and Graphix',
+        avatar: 'IG',
         description: 'Full-stack WordPress development with custom themes and WooCommerce integration. Responsive design guaranteed.',
         category: 'Development',
         rating: 5,
@@ -257,9 +300,8 @@ const mockServices = [
     {
         id: 3,
         title: 'Social Media Marketing',
+        ghsPrice: 400.00,
         provider: 'Ada Marketing',
-        price: 'GHS 250/mo',
-        numericPrice: 250,
         avatar: 'AM',
         description: 'Comprehensive social media management across all platforms. Grow your business online with proven strategies.',
         category: 'Marketing',
@@ -269,9 +311,8 @@ const mockServices = [
     {
         id: 4,
         title: 'Content Writing & SEO',
+        ghsPrice: 180.00,
         provider: 'Chioma Writers',
-        price: 'NGN 15,000',
-        numericPrice: 15000,
         avatar: 'CW',
         description: 'SEO-optimized blog posts and web content that ranks. 500+ satisfied clients across Africa.',
         category: 'Writing',
@@ -281,9 +322,8 @@ const mockServices = [
     {
         id: 5,
         title: 'Mobile App Development',
+        ghsPrice: 8000.00,
         provider: 'DevHub Ghana',
-        price: 'GHS 5,000',
-        numericPrice: 5000,
         avatar: 'DH',
         description: 'Native iOS and Android app development. From concept to deployment with ongoing support.',
         category: 'Development',
@@ -293,9 +333,8 @@ const mockServices = [
     {
         id: 6,
         title: 'Video Editing Services',
+        ghsPrice: 350.00,
         provider: 'Kofi Productions',
-        price: 'ZAR 2,500',
-        numericPrice: 2500,
         avatar: 'KP',
         description: 'Professional video editing for commercials, events, and social media content. Quick turnaround time.',
         category: 'Design',
@@ -305,7 +344,6 @@ const mockServices = [
 ];
 
 // Mock Blog Posts
-// In Phase 2: fetch('/wp-json/wp/v2/posts')
 const mockBlogPosts = [
     {
         id: 1,
