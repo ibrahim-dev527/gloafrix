@@ -724,14 +724,12 @@ function proceedToCheckout() {
 /**
  * Notification System
  */
-function showNotification(message) {
-    // Remove existing notification
+function showNotification(message, type = 'default') {
     const existing = document.querySelector('.notification');
-    if (existing) {
-        existing.remove();
-    }
+    if (existing) existing.remove();
     
-    // Create notification
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
@@ -739,17 +737,20 @@ function showNotification(message) {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        background: var(--gray-900);
-        color: white;
+        background: ${isDarkMode ? '#f9fafb' : '#1f2937'};
+        color: ${isDarkMode ? '#111827' : 'white'};
         padding: 1rem 1.5rem;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 24px rgba(0,0,0,${isDarkMode ? '0.5' : '0.3'});
         z-index: 3000;
-        animation: slideIn 0.3s ease;
-        max-width: 90%;
+        ${isDarkMode ? 'border: 1px solid #e5e7eb;' : ''}
     `;
     
     document.body.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 3000);
+
+  
     
     // Auto remove after 3 seconds
     setTimeout(() => {

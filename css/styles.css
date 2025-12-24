@@ -2646,3 +2646,42 @@ body.menu-open {
     border: 3px solid red !important;
 }
 */
+
+
+
+
+
+
+
+
+
+
+
+/* Dark Mode Footer Fix */
+body.dark-mode footer {
+    background: #0a0a0a;
+    border-top: 1px solid #1f2937;
+}
+
+body.dark-mode .footer-column h4,
+body.dark-mode .footer-logo .logo-text {
+    color: #f9fafb;
+}
+
+body.dark-mode .footer-column a,
+body.dark-mode .footer-contact,
+body.dark-mode .footer-description {
+    color: #d1d5db;
+}
+
+body.dark-mode .footer-column a:hover {
+    color: #ffffff;
+}
+
+/* Dark Mode Notifications Fix */
+body.dark-mode .notification {
+    background: #f9fafb !important;
+    color: #111827 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border: 1px solid #e5e7eb;
+}
