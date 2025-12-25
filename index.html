@@ -7,6 +7,7 @@
     <meta name="description" content="Buy and sell products with confidence across Africa. Electronics, Fashion, Services and more.">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/chatbot.css">
 </head>
 <body>
     <!-- Desktop Header - Two Rows -->
@@ -14,7 +15,8 @@
         <!-- Desktop Top Row: Logo | Animation | Auth -->
         <div class="header-top-row">
             <a href="index.html" class="logo">
-                <div class="logo-icon">🌍</div>
+                
+                <img src="images/gloafrix-logo.jpg" alt="Logo" class="logo-icon">
                 <span class="logo-text">GloAfrix</span>
             </a>
             
@@ -30,19 +32,7 @@
             
             <!-- Auth Buttons -->
             <div class="header-actions">
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
+               
                 <a href="login.html" class="btn btn-secondary">Login</a>
                 <a href="signup.html" class="btn btn-primary">Sign up</a>
             </div>
@@ -51,9 +41,10 @@
         <!-- Desktop Bottom Row & Mobile Header -->
         <div class="header-container">
             <!-- Mobile Logo -->
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🌍</div>
-                <span class="logo-text">GloAfrix</span>
+            <a href="about.html" class="logo">
+              <h2 class="logo-text">  Africa Connected,<br>
+                 Business Unlocked.</h2>
+                
             </a>
             
             <!-- Desktop Navigation -->
@@ -220,6 +211,7 @@
     </div>
 
     <!-- Hero Section with Enhanced Animations -->
+     <main>
     <section class="hero">
         <div class="hero-container">
             <div class="hero-content">
@@ -272,6 +264,7 @@
         </div>
         <div class="product-grid" id="recommendedGrid"></div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -279,7 +272,7 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <div class="logo footer-logo">
-                        <div class="logo-icon">🌍</div>
+                        <img src="images/gloafrix-logo.jpg" alt="Logo" class="logo-icon">
                         <span class="logo-text">GloAfrix</span>
                     </div>
                     <p class="footer-description">Africa's trusted marketplace for goods and services.</p>
@@ -321,7 +314,74 @@
         </div>
     </footer>
 
+
+
+        <!-- Chatbot Button (Fixed at bottom-right) -->
+<button id="chatbotButton" class="chatbot-button" aria-label="Open chat">
+    <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+        <line x1="9" y1="10" x2="15" y2="10"></line>
+        <line x1="12" y1="14" x2="12" y2="14"></line>
+    </svg>
+    <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+</button>
+
+<!-- Chatbot Window (Hidden by default) -->
+<div id="chatbotWindow" class="chatbot-window">
+    <!-- Header -->
+    <div class="chatbot-header">
+        <div class="chatbot-header-info">
+            <div class="chatbot-avatar">🤖</div>
+            <div>
+                <h3 class="chatbot-title">GloBot</h3>
+                <p class="chatbot-status">Online • Instant replies</p>
+            </div>
+        </div>
+        <button id="chatbotClose" class="chatbot-close" aria-label="Close chat">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Messages Area -->
+    <div id="chatbotMessages" class="chatbot-messages">
+        <!-- Messages appear here dynamically -->
+        
+        <!-- Typing Indicator -->
+        <div id="typingIndicator" class="typing-indicator message bot">
+            <div class="message-avatar">🤖</div>
+            <div class="typing-dots">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Input Area -->
+    <div class="chatbot-input">
+        <input 
+            type="text" 
+            id="chatbotInput" 
+            placeholder="Type your message..." 
+            autocomplete="off"
+        >
+        <button id="chatbotSend" class="chatbot-send-btn" aria-label="Send message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </div>
+</div>
+
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/chatbot.js"></script>
 </body>
 </html>

@@ -6,55 +6,39 @@
     <title>Login - GloAfrix</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
 </head>
 <body>
     <!-- Header -->
+    <!-- Desktop Header - Two Rows -->
     <header id="mainHeader">
-        <div class="header-container">
+        <!-- Desktop Top Row: Logo | Animation | Auth -->
+        <div class="header-top-row">
             <a href="index.html" class="logo">
-                <div class="logo-icon">🌍</div>
+                
+                <img src="images/gloafrix-logo.jpg" alt="Logo" class="logo-icon">
                 <span class="logo-text">GloAfrix</span>
             </a>
             
-            <nav id="mainNav">
-                <a href="index.html">Home</a>
-                <a href="marketplace.html">Marketplace</a>
-                <a href="services.html">Services</a>
-                <a href="blog.html">Blog</a>
-                <a href="contact.html">Contact</a>
-            </nav>
+            <!-- Center Animation -->
+            <div class="header-animation-container">
+                <div class="header-animation">
+                    <span class="delivery-icon" style="font-size: 2rem;">🚚</span>
+                    <span class="package-icon" style="font-size: 1.5rem;">📦</span>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <span style="font-size: 2rem;">🏠</span>
+                </div>
+            </div>
             
+            <!-- Auth Buttons -->
             <div class="header-actions">
-                <button class="btn btn-icon" onclick="window.location.href='cart.html'" title="Cart">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"></path>
-                    </svg>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </button>
-                <a href="login.html" class="btn btn-secondary active">Login</a>
+               
+                <a href="login.html" class="btn btn-secondary">Login</a>
                 <a href="signup.html" class="btn btn-primary">Sign up</a>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
             </div>
         </div>
         
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="index.html">Home</a>
-            <a href="marketplace.html">Marketplace</a>
-            <a href="services.html">Services</a>
-            <a href="blog.html">Blog</a>
-            <a href="cart.html">Cart</a>
-            <a href="contact.html">Contact</a>
-        </div>
-    </header>
-
+        
     <!-- Main Content -->
     <section class="section">
         <div class="auth-container">
@@ -116,7 +100,7 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <div class="logo footer-logo">
-                        <div class="logo-icon">🌍</div>
+                        <img src="images/gloafrix-logo.jpg" alt="Logo" class="logo-icon">
                         <span class="logo-text">GloAfrix</span>
                     </div>
                     <p class="footer-description">Africa's trusted marketplace for goods and services.</p>
@@ -126,7 +110,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="hiw.html">How It Works</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
                         <li><a href="#">Vendor Portal</a></li>
                         <li><a href="blog.html">Blog</a></li>
                     </ul>
@@ -172,5 +156,6 @@
             }
         });
     </script>
+    
 </body>
 </html>
